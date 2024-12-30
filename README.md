@@ -25,8 +25,9 @@ node app.js
 
 
 ## Acknowledgments
-This project was developed as part of my studies. Special thanks to my instructors and classmates for their support.
+This project was developed as part of my studies. I will add more new and interesting features to enhance the site as I continue to learn.
 
+Thank you!!!
 
 ## SomeSnapShots from StaySpot...
 
