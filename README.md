@@ -31,4 +31,4 @@ This project was developed as part of my studies. Special thanks to my instructo
 ## SomeSnapShots from StaySpot...
 
 
-![alt text](<Screenshot 2024-12-30 195238.png>) ![alt text](<Screenshot 2024-12-30 194955.png>) ![alt text](<Screenshot 2024-12-30 195102.png>) ![alt text](<Screenshot 2024-12-30 195137.png>)
+![alt text](<Screenshot 2024-12-30 194955.png>) ![alt text](<Screenshot 2024-12-30 195238.png>) ![alt text](<Screenshot 2024-12-30 195102.png>) ![alt text](<Screenshot 2024-12-30 195137.png>)
