@@ -1,0 +1,57 @@
+<%layout("layouts/boilerplate")%>
+    <div class="row">
+        <div class="col-8 offset-2" class="needs-validation" novalidate>
+            <h1>Create New Listing:</h1>
+            <form method="POST" action="/listings" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <!-- <input type="text" name="title" placeholder="title" class="form-control" required> -->
+                    <input type="text" name="title" placeholder="title" class="form-control" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div id="validationServerUsernameFeedback" class="invalid-feedback">
+                        Please choose a Title.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="description" class="form-control" placeholder="description" required></textarea>
+                    <div id="validationServer05Feedback" class="invalid-feedback">
+                        Please provide the description.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="text" name="image" placeholder="Default Link" class="form-control">
+                </div>
+                <div class="row">
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="text" name="price" id="price" placeholder="price" class="form-control" required>
+                        <div id="validationServer05Feedback" class="invalid-feedback">
+                            Please enter price.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" name="location" id="location" placeholder="location" class="form-control"
+                            required>
+                        <div id="validationServer05Feedback" class="invalid-feedback">
+                            Please mention the Location.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" name="country" id="country" placeholder="country" class="form-control"
+                            required>
+                        <div id="validationServer05Feedback" class="invalid-feedback">
+                            Please mention the Country.
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-dark add-btn">Add</button>
+            </form>
+        </div>
+    </div>
+    <script src="/js/script.js"></script>

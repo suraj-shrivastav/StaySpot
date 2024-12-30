@@ -1,0 +1,36 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="row mt-3">
+    <div class="col-8 offset-3">
+        <h3>Search Results</h3>
+    </div>
+
+    <% if (results.length > 0) { %>
+        <% results.forEach(listing => { %>
+            <a href="/listings/<%=listing._id%>" class="listing-link">
+            <div class="card col-6 offset-3 show-card mb-3">
+                <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing image">
+                <div class="card-body">
+                    <p class="card-text">
+                        <b><%= listing.title %></b><br>
+                        <%= listing.description %><br><br>
+                        <% if (listing.price) { %>
+                            &#8377;<%= Number(listing.price).toLocaleString("en-IN") %>/night
+                        <% } else { %>
+                            Price not available
+                        <% } %>
+                        <br>
+                        <%= listing.location %><br>
+                        <%= listing.country %>
+                    </p>
+                </div>
+            </div>
+        </a>
+        <hr>
+        <% }) %>
+    <% } else { %>
+        <div class="col-8 offset-3">
+            <p>No listings found for your search.</p>
+        </div>
+    <% } %>
+</div>

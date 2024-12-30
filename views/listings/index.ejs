@@ -1,0 +1,27 @@
+<%- layout("layouts/boilerplate.ejs") %>
+
+    <body>
+        <!-- <%- include("../includes/navbar.ejs") %> -->
+        <!-- <form method="GET" action="/listings/new">
+        <button type="submit">Add Listing</button>
+    </form> -->
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-3">
+            <% for (let listing of allListings) { %>
+
+                <div class="card col" style="width: 18rem;">
+                    <a href="/listings/<%=listing._id%>" class="listing-link">
+                        <img src="<%=listing.image.url%>" class="card-img-top" alt="Airbnb-Image" style="height: 20rem">
+                        <div class="card-img-overlay"></div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <b>
+                                    <%= listing.title %>
+                                </b><br>&#8377 <%= listing.price.toLocaleString("en-IN") %>/night
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <% } %>
+        </div>
+        <!-- <%- include("../includes/footer.ejs") %> -->
+    </body>
