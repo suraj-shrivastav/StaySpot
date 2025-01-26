@@ -115,3 +115,7 @@ body {
     border-radius: 5px;
     border-color: #fe424d;
 }
+
+.card-review{
+    border: 2px solid black;
+}

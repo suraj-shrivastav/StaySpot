@@ -7,7 +7,8 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const { listingSchema } = require("./schema.js");
+const { listingSchema ,reviewSchema } = require("./schema.js");
+const Review = require("../Airbnb/models/review");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -32,7 +33,7 @@ app.get("/", (req, res) => {
 });
 
 app.listen(8000, () => {
-    console.log("Server listening to 8080");
+    console.log("Server listening to 8000");
 });
 
 app.get("/listings", async (req, res) => {
@@ -48,7 +49,7 @@ app.get("/listings/new", (req, res) => {
 //show
 app.get("/listings/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate("reviews");
     res.render("listings/show", { listing });
 }));
 
@@ -59,8 +60,33 @@ app.get("/listings/:id", wrapAsync(async (req, res) => {
 //     console.log(listing);
 // });
 
+//Validation
+
+const validateListing = (req, res, next) => {
+    const { error } = listingSchema.validate(req.body);
+
+    if (error) {
+        const msg = error.details.map(el => el.message).join(",");
+        throw new ExpressError(400, msg);
+    } else {
+        next();
+    }
+};
+
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
+    if(error){
+        const msg = error.details.map(el => el.message).join(",");
+        throw new ExpressError(400, msg);
+    } else {
+        next();
+    }
+};
+
+
+
 //Create Listing
-app.post("/listings", wrapAsync(async (req, res, next) => {
+app.post("/listings",validateListing, wrapAsync(async (req, res, next) => {
     const { error } = listingSchema.validate(req.body);
 
     if (error) {
@@ -82,6 +108,7 @@ app.post("/listings", wrapAsync(async (req, res, next) => {
     await newListing.save();
     res.redirect("/listings");
 }));
+
 
 app.get("/listings/:id/edit", async (req, res) => {
     let { id } = req.params;
@@ -124,6 +151,40 @@ app.get('/search', wrapAsync(async (req, res) => {
 
     // Render search results page with the results
     res.render('listings/searchResults', { results });
+}));
+
+
+//Reviews
+
+app.post("/listings/:id/reviews", validateReview, wrapAsync(async (req, res) => {
+    try {
+        let { id } = req.params;
+        let listing = await Listing.findById(id);
+
+        if (!listing) {
+            return res.status(404).send("Listing not found");
+        }
+
+        let newReview = new Review(req.body.review);
+        await newReview.save();
+        
+        listing.reviews.push(newReview._id);
+        await listing.save();
+
+        console.log("Saved review:", newReview);
+        res.redirect(`/listings/${id}`);
+    } catch (error) {
+        console.error("Error saving review:", error);
+        res.status(500).send("Server error");
+    }
+}));
+
+// delete review
+app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/listings/${id}`);
 }));
 
 app.all("*", (req, res, next) => {
